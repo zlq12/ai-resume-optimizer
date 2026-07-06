@@ -220,9 +220,16 @@ export default function IndexPage() {
       <section className="relative isolate min-h-[920px] overflow-hidden bg-[radial-gradient(circle_at_50%_0%,rgba(124,58,237,0.35),transparent_35%),linear-gradient(135deg,#07111f_0%,#11163a_48%,#35155c_100%)] px-4 pb-24 pt-20">
         <div className="absolute inset-0 -z-10 opacity-40">
           <div className="absolute left-1/2 top-20 h-px w-[900px] -translate-x-1/2 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
-          <div className="absolute right-20 top-40 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
-          <div className="absolute bottom-20 left-16 h-80 w-80 rounded-full bg-violet-500/30 blur-3xl" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(circle_at_center,black,transparent_72%)]" />
+          <div className="absolute right-20 top-40 size-72 rounded-full bg-cyan-400/20 blur-3xl" />
+          <div className="absolute bottom-20 left-16 size-80 rounded-full bg-violet-500/30 blur-3xl" />
+          <div
+            className="absolute inset-0 [mask-image:radial-gradient(circle_at_center,black,transparent_72%)]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
+              backgroundSize: "72px 72px",
+            }}
+          />
         </div>
 
         <MaxWidthWrapper className="relative z-10 flex flex-col items-center text-center">
