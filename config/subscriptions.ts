@@ -4,17 +4,14 @@ import { env } from "@/env.mjs";
 export const pricingData: SubscriptionPlan[] = [
   {
     title: "Starter",
-    description: "For Beginners",
+    description: "For job seekers getting started",
     benefits: [
-      "Up to 100 monthly posts",
-      "Basic analytics and reporting",
-      "Access to standard templates",
+      "Create and manage resumes",
+      "3 AI resume optimizations per month",
+      "Access to standard resume templates",
     ],
     limitations: [
-      "No priority access to new features.",
-      "Limited customer support",
-      "No custom branding",
-      "Limited access to business resources.",
+      "No unlimited AI optimizations",
     ],
     prices: {
       monthly: 0,
@@ -27,17 +24,16 @@ export const pricingData: SubscriptionPlan[] = [
   },
   {
     title: "Pro",
-    description: "Unlock Advanced Features",
+    description: "For active job seekers",
     benefits: [
-      "Up to 500 monthly posts",
-      "Advanced analytics and reporting",
-      "Access to business templates",
+      "Unlimited AI resume optimizations",
+      "Tailor resumes for every target role",
+      "Access to premium resume templates",
       "Priority customer support",
       "Exclusive webinars and training.",
     ],
     limitations: [
-      "No custom branding",
-      "Limited access to business resources.",
+      "No team collaboration",
     ],
     prices: {
       monthly: 15,
@@ -50,13 +46,11 @@ export const pricingData: SubscriptionPlan[] = [
   },
   {
     title: "Business",
-    description: "For Power Users",
+    description: "For career coaches and power users",
     benefits: [
-      "Unlimited posts",
-      "Real-time analytics and reporting",
-      "Access to all templates, including custom branding",
-      "24/7 business customer support",
-      "Personalized onboarding and account management.",
+      "Unlimited AI resume optimizations",
+      "Everything in Pro",
+      "Priority support",
     ],
     limitations: [],
     prices: {
@@ -78,6 +72,14 @@ export const plansColumns = [
 ] as const;
 
 export const comparePlans: PlansRow[] = [
+  {
+    feature: "AI Resume Optimizations",
+    starter: "3/month",
+    pro: "Unlimited",
+    business: "Unlimited",
+    enterprise: "Unlimited",
+    tooltip: "Free users can optimize up to three resumes per calendar month. Pro and higher plans are unlimited.",
+  },
   {
     feature: "Access to Analytics",
     starter: true,

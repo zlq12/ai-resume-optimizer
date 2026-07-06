@@ -13,6 +13,7 @@ export const sidebarLinks: SidebarNavItem[] = [
         authorizeOnly: UserRole.ADMIN,
       },
       { href: "/dashboard", icon: "dashboard", title: "Dashboard" },
+      { href: "/dashboard/resumes", icon: "post", title: "My Resumes" },
       {
         href: "/dashboard/billing",
         icon: "billing",
