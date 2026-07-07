@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { stripe } from "@/lib/stripe";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
-import { absoluteUrl } from "@/lib/utils";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export type responseAction = {
@@ -11,8 +11,27 @@ export type responseAction = {
   stripeUrl?: string;
 }
 
-// const billingUrl = absoluteUrl("/dashboard/billing")
-const billingUrl = absoluteUrl("/pricing")
+function getBillingUrl() {
+  const headersList = headers();
+  const host = headersList.get("x-forwarded-host") || headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") || "https";
+
+  if (host) {
+    return `${protocol}://${host}/pricing`;
+  }
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/^["']|["']$/g, "");
+
+  if (appUrl) {
+    try {
+      return `${new URL(appUrl).origin}/pricing`;
+    } catch {
+      // Fall through to local default for development.
+    }
+  }
+
+  return "http://localhost:3000/pricing";
+}
 
 export async function generateUserStripe(priceId: string): Promise<responseAction> {
   let redirectUrl: string = "";
@@ -28,6 +47,8 @@ export async function generateUserStripe(priceId: string): Promise<responseActio
     if (!priceId) {
       throw new Error("Missing Stripe price id. Check Vercel price ID environment variables.");
     }
+
+    const billingUrl = getBillingUrl();
 
     const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 

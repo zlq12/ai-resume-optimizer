@@ -1,17 +1,37 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { auth } from "@/auth";
 
 import { stripe } from "@/lib/stripe";
-import { absoluteUrl } from "@/lib/utils";
 
 export type responseAction = {
   status: "success" | "error";
   stripeUrl?: string;
 };
 
-const billingUrl = absoluteUrl("/dashboard/billing");
+function getBillingUrl() {
+  const headersList = headers();
+  const host = headersList.get("x-forwarded-host") || headersList.get("host");
+  const protocol = headersList.get("x-forwarded-proto") || "https";
+
+  if (host) {
+    return `${protocol}://${host}/dashboard/billing`;
+  }
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/^["']|["']$/g, "");
+
+  if (appUrl) {
+    try {
+      return `${new URL(appUrl).origin}/dashboard/billing`;
+    } catch {
+      // Fall through to local default for development.
+    }
+  }
+
+  return "http://localhost:3000/dashboard/billing";
+}
 
 export async function openCustomerPortal(
   userStripeId: string,
@@ -28,7 +48,7 @@ export async function openCustomerPortal(
     if (userStripeId) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: userStripeId,
-        return_url: billingUrl,
+        return_url: getBillingUrl(),
       });
 
       redirectUrl = stripeSession.url as string;
