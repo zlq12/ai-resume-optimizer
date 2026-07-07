@@ -25,6 +25,10 @@ export async function generateUserStripe(priceId: string): Promise<responseActio
       throw new Error("Unauthorized");
     }
 
+    if (!priceId) {
+      throw new Error("Missing Stripe price id. Check Vercel price ID environment variables.");
+    }
+
     const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
     if (subscriptionPlan.isPaid && subscriptionPlan.stripeCustomerId) {
@@ -58,7 +62,12 @@ export async function generateUserStripe(priceId: string): Promise<responseActio
       redirectUrl = stripeSession.url as string
     }
   } catch (error) {
-    throw new Error("Failed to generate user stripe session");
+    console.error("[stripe_checkout_error]", error);
+    throw new Error(
+      error instanceof Error
+        ? `Failed to generate user stripe session: ${error.message}`
+        : "Failed to generate user stripe session",
+    );
   }
 
   // no revalidatePath because redirect

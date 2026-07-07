@@ -79,7 +79,14 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}${path}`;
+  const rawUrl = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/^["']|["']$/g, "");
+
+  try {
+    const baseUrl = rawUrl ? new URL(rawUrl).origin : "http://localhost:3000";
+    return `${baseUrl}${path}`;
+  } catch {
+    return `http://localhost:3000${path}`;
+  }
 }
 
 // Utils from precedent.dev
