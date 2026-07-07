@@ -1,6 +1,18 @@
 import { SidebarNavItem, SiteConfig } from "types";
 
-const site_url = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+function getSiteUrl() {
+  const url = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/^["']|["']$/g, "");
+
+  if (!url) return "http://localhost:3000";
+
+  try {
+    return new URL(url).origin;
+  } catch {
+    return "http://localhost:3000";
+  }
+}
+
+const site_url = getSiteUrl();
 
 export const siteConfig: SiteConfig = {
   name: "ResumePilot",
